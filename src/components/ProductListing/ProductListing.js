@@ -1,13 +1,26 @@
-import React, { useState, useEffect, useReducer } from "react";
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import "./ProductListing.css";
 import { useProductContext } from "../../context/productcontex";
 
 export default function ProductListing(props) {
   // const [products, setProducts] = useState(null);
   const [page, setPage] = useState(1);
-  const { isLoading, products } = useProductContext();
+  const { getProducts, isLoading, products } = useProductContext();
+  console.log(products);
+
+  const location = useLocation();
+  const id = location.pathname.split("=").at(-1);
+  // console.log("id"+id);
+
+  useEffect(() => {
+    getProducts(
+      `https://api.prodo.in/products/category/${id}?limit=100&page=1`
+    );
+  }, []);
+
   if (isLoading) {
-    return <div>......Loading</div>;
+    return <div className="loading">......Loading</div>;
   }
 
   // Logic for displaying products

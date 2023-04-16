@@ -13,11 +13,11 @@ const ProductReducer = (state, action) => {
         categoryList: action.payload
       };
 
-    case "API_CATEGORY_ERROR":
+    case "CATEGORY_ERROR":
       return {
         ...state,
         isCategoryLoading: false,
-        isCategoryError: true
+        isError: true
       };
 
     case "SET_LOADING":
@@ -38,6 +38,32 @@ const ProductReducer = (state, action) => {
         ...state,
         isLoading: false,
         isError: true
+      };
+
+    case "SET_SINGLE_LOADING":
+      return {
+        ...state,
+        isSingleLoading: true
+      };
+
+    case "SET_SINGLE_PRODUCT":
+      return {
+        ...state,
+        isSingleLoading: false,
+        singleProduct: action.payload
+      };
+
+    case "SINGLE_ERROR":
+      return {
+        ...state,
+        isSingleLoading: false,
+        isError: true
+      };
+
+    case "SET_PRODUCT_NULL":
+      return {
+        ...state,
+        products: []
       };
 
     default:
