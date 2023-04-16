@@ -13,6 +13,7 @@ nav {
   text-transform: uppercase;
   font-weight: 700;
   color: #bfbfbf;
+  cursor: pointer;
 }
 
 ul {

@@ -1,41 +1,30 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import "./Home.css";
-import { useNavigate } from "react-router-dom";
-// import { ProductListing } from "../ProductListing/ProductListing";
+import { NavLink } from "react-router-dom";
 import { useProductContext } from "../../context/productcontex";
 
 export default function Home() {
-  const { isCategoryLoading, categoryList, setHome } = useProductContext();
-  setHome();
-  console.log(categoryList);
-
-  let navigate = useNavigate();
-
-  function handleClick(e) {
-    console.log(e);
-    categoryList !== undefined &&
-      categoryList.forEach((item) => {
-        if (item.categoryName == e.target.innerText) {
-          navigate(`/productListing/id=${item.id}`);
-        }
-      });
-  }
+  const { isCategoryLoading, categoryList } = useProductContext();
+  // setHome();
+  // console.log(categoryList);
 
   if (isCategoryLoading) {
-    return <div>......Category Loading</div>;
+    return <div className="loading">......Loading</div>;
   }
 
   return (
     <div className="wrapper">
       {categoryList !== undefined &&
         categoryList.map((category) => (
-          <div className="category" onClick={handleClick}>
-            <img
-              src={`http://static.prodo.in${category.categoryImages}`}
-              alt="category"
-            />
-            <p>{category.categoryName}</p>
-          </div>
+          <NavLink to={`/productListing/${category.id}`}>
+            <div className="category">
+              <img
+                src={`http://static.prodo.in${category.categoryImages}`}
+                alt="category"
+              />
+              <p>{category.categoryName}</p>
+            </div>
+          </NavLink>
         ))}
     </div>
   );
