@@ -5,10 +5,11 @@ import reducer from "../reducer/productReducer";
 const initialState = {
   isCategoryLoading: false,
   categoryList: [],
-  isCategoryError: false,
   isLoading: false,
   isError: false,
-  products: []
+  products: [],
+  isSingleLoading: false,
+  singleProduct: {}
 };
 
 const AppContext = createContext();
@@ -16,23 +17,23 @@ const AppContext = createContext();
 const AppProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
-  //API call for category
+  //my 1st API call for category
   const getCategory = async (url) => {
     dispatch({ type: "SET_CATEGORY_LOADING" });
     try {
       const res = await axios.get(url);
       const category = await res.data;
-      console.log(category);
+      // console.log(category);
       dispatch({ type: "SET_CATEGORY_DATA", payload: category });
     } catch (error) {
-      dispatch({ type: "API_CATEGORY_ERROR" });
+      dispatch({ type: "CATEGORY_ERROR" });
     }
   };
   useEffect(() => {
     getCategory("https://api.prodo.in/categories");
   }, []);
 
-  //API call for products
+  //my 2nd API call for products
   const getProducts = async (url) => {
     dispatch({ type: "SET_LOADING" });
     try {
@@ -44,14 +45,31 @@ const AppProvider = ({ children }) => {
       dispatch({ type: "API_ERROR" });
     }
   };
-  useEffect(() => {
-    getProducts(
-      `https://api.prodo.in/products/category/610811f7f774dd0104d0b62e?limit=100&page=1`
-    );
-  }, []);
+
+  //my 3rd API call for single product
+  const getSingleProduct = async (url) => {
+    dispatch({ type: "SET_SINGLE_LOADING" });
+    try {
+      const res = await axios.get(url);
+      const singleProduct = await res.data;
+      console.log(singleProduct);
+      dispatch({ type: "SET_SINGLE_PRODUCT", payload: singleProduct });
+    } catch (error) {
+      dispatch({ type: "SINGLE_ERROR" });
+    }
+  };
+
+  // to clear product list when at home
+  const setHome = () => {
+    dispatch({ type: "SET_PRODUCT_NULL" });
+  };
 
   return (
-    <AppContext.Provider value={{ ...state }}>{children}</AppContext.Provider>
+    <AppContext.Provider
+      value={{ ...state, getProducts, getSingleProduct, setHome }}
+    >
+      {children}
+    </AppContext.Provider>
   );
 };
 

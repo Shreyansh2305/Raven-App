@@ -1,9 +1,7 @@
-import React from "react";
+import react from "react";
 
 export default function About() {
   return (
-    <div>
-      <h1>Hello About!</h1>
-    </div>
+      <h1>About</h1>
   );
-}
+};

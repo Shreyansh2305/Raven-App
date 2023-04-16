@@ -5,24 +5,22 @@ import {
   faBasketShopping
 } from "@fortawesome/free-solid-svg-icons";
 import "./Header.css";
-import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function Header() {
-  let navigate = useNavigate();
 
-  function handleClick() {
-    navigate("/");
-  }
   return (
     <nav>
-      <div className="logo" onClick={handleClick}>
-        Raven
-      </div>
+      <NavLink to={"/"} style={{textDecoration: 'none'}}>
+        <div className="logo">
+          Raven
+        </div>
+      </NavLink>
       <ul>
-        <li onClick={handleClick}>Home</li>
-        <li>Products</li>
-        <li>About US</li>
-        <li>Contact</li>
+        <NavLink to={"/"} style={{textDecoration: 'none'}}><li>Home</li></NavLink>
+        <NavLink to={"/products"} style={{textDecoration: 'none'}}><li>Products</li></NavLink>
+        <NavLink to={"/about"} style={{textDecoration: 'none'}}><li>About US</li></NavLink>
+        <NavLink to={"/contact"} style={{textDecoration: 'none'}}><li>Contact</li></NavLink>
       </ul>
       <div className="search">
         <FontAwesomeIcon className="header-icon" icon={faMagnifyingGlass} />
